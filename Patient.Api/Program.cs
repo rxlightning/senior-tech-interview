@@ -1,3 +1,7 @@
+using Patient.Api.Interfaces;
+using Patient.Api.Models;
+using Patient.Api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<PatientDataRepoConfig>(builder.Configuration.GetSection("PatientDataRepo"));
+builder.Services.AddScoped<IPatientService, PatientService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
