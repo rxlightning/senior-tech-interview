@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Patient.Api.Interfaces;
 using Patient.Api.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Patient.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PatientController : ControllerBase
     {
         private IPatientService _patientService;
@@ -15,14 +17,12 @@ namespace Patient.Api.Controllers
             _patientService = patientService;
         }
 
-        // GET: api/<PatientController>
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
             return Ok(await _patientService.GetAll());
         }
 
-        // GET api/<PatientController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
