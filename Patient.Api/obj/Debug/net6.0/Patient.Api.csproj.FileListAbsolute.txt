@@ -30,3 +30,4 @@ G:\Charlie's Stuff\Repos\Patient.Api\obj\Debug\net6.0\refint\Patient.Api.dll
 G:\Charlie's Stuff\Repos\Patient.Api\obj\Debug\net6.0\Patient.Api.pdb
 G:\Charlie's Stuff\Repos\Patient.Api\obj\Debug\net6.0\Patient.Api.genruntimeconfig.cache
 G:\Charlie's Stuff\Repos\Patient.Api\obj\Debug\net6.0\ref\Patient.Api.dll
+G:\Charlie's Stuff\Repos\Patient.Api\bin\Debug\net6.0\Newtonsoft.Json.dll

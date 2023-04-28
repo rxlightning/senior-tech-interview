@@ -1,6 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using Patient.Api.Interfaces;
 using Patient.Api.Models;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using Patient.Api.Helpers;
 
 namespace Patient.Api.Services
 {
@@ -12,15 +16,44 @@ namespace Patient.Api.Services
         { 
             _config = config.Value;
         }
-        public Task<List<PatientDto>> GetAll()
+        public async Task<List<PatientDto>> GetAll()
         {
-            var getAllFullUrl = _config.BaseUrl;
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_config.BaseUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //GET Method
+                HttpResponseMessage response = await client.GetAsync("patients");
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringContent = await response.Content.ReadAsStringAsync();
+                    var patientList = JsonConvert.DeserializeObject<List<PatientDto>>(stringContent);
+                    return patientList ?? new List<PatientDto>();
+                }
+
+                return new List<PatientDto>();
+            }
         }
 
-        public Task<PatientDto> GetById(string id)
+        public async Task<PatientDto> GetById(string id)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_config.BaseUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //GET Method
+                HttpResponseMessage response = await client.GetAsync($"patients/{id.Decrypt()}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringContent = await response.Content.ReadAsStringAsync();
+                    var patient = JsonConvert.DeserializeObject<PatientDto>(stringContent);
+                    return patient ?? new PatientDto();
+                }
+
+                return new PatientDto();
+            }
         }
     }
 }
